@@ -93,7 +93,7 @@ class Grid():
     def isEmpty(self,x,y):
         if self.gridArray[x][y].getNearBombs() > 0:
             self.gridArray[x][y].revealTile()
-        if not(self.gridArray[x][y].isBomb()) and (self.gridArray[x][y].getNearBombs() == 0):
+        if not(self.gridArray[x][y].isBomb()) and (self.gridArray[x][y].getNearBombs() <=1):
             if not self.gridArray[x][y].isRevealed():
                 return True
         else:
@@ -106,6 +106,9 @@ class Grid():
             return
         if self.winState:
             print("You have won! B)")
+            return
+        if self.isEmpty(x,y):
+            self.revealTileHelper(x,y)
             return
         if currTile.isBomb():
             currTile.revealTile()
