@@ -107,15 +107,16 @@ class Grid():
         if self.winState:
             print("You have won! B)")
             return
-        if self.isEmpty(x,y):
-            self.revealTileHelper(x,y)
-            return
         if currTile.isBomb():
             currTile.revealTile()
             self.deadState = True
             print("Oh no! You hit a Bomb  💣 ")
             return
-        currTile.revealTile()
+        elif currTile.getNearBombs() == 0:
+            self.revealTileHelper(x,y)
+            return
+        else:
+            currTile.revealTile()
         
         
 
@@ -149,26 +150,11 @@ class Grid():
                 if self.isEmpty(i+1,j+1):
                     self.revealTileHelper(i+1,j+1)
                 
-
-
-    def nearTile(self,x,y,dir):
-        if dir == "top":
-            return self.gridArray[x-1][y]
-        if dir == "topright":
-            return self.gridArray[x-1][y+1]
-        if dir == "topleft":
-            return self.gridArray[x-1][y-1]
-        if dir == "left":
-            return self.gridArray[x][y-1]
-        if dir == "right":
-            return self.gridArray[x][y+1]
-        if dir == "bottom":
-            return self.gridArray[x+1][y]
-        if dir == "bottomright":
-            return self.gridArray[x+1][y+1]
-        if dir == "bottomleft":
-            return self.gridArray[x+1][y-1]
-
+    def notDead(self):
+        if self.deadState:
+            return False
+        else:
+            return True
 
 
 

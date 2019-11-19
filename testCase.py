@@ -1,8 +1,5 @@
-from Grid import Grid
+from Minesweeper import Minesweeper
 
-testGrid = Grid(12,18)
+game = Minesweeper()
 
-testGrid.printGrid()
-testGrid.revealTile(2,2)
-testGrid.printGrid()
-testGrid.printRevealedGrid()
+game.playMinesweeper()
