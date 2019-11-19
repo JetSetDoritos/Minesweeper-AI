@@ -20,4 +20,27 @@ class Tile():
     
     def getNearBombs(self):
         return self.nearBombs
+
+    def revealTile(self):
+        self.revealed = True
+
+    def printer(self):
+        if self.revealed:
+            if(self.bomb):
+                return "x"
+            if self.nearBombs == 0:
+                return " "
+            else:
+                return str(self.nearBombs)
+        else:
+            return "#"
+
+    def debugPrinter(self):
+        if self.bomb:
+            return "x"
+        if self.nearBombs == 0:
+            return " "
+        else:
+            return str(self.nearBombs)
+
     

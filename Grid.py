@@ -17,6 +17,9 @@ class Grid():
         self.generateBombs()
         self.generateNumbers()
 
+        self.winState = False
+        self.deadState = False
+
     def printGrid(self):
         print("Printing Grid State:")
         print("[:) ]", end='', flush=True)
@@ -26,10 +29,7 @@ class Grid():
         for i in range(0,self.size):
             print("[ "+ str(i)+" ]", end='', flush=True)
             for j in range(0,self.size):
-                if self.gridArray[i][j].isRevealed():
-                    print("[   ]", end='', flush=True)
-                else:
-                    print("[ # ]", end='', flush=True)
+                print("[ " + self.gridArray[i][j].printer() + " ]", end='', flush=True) 
             print("")
     
     def printRevealedGrid(self):
@@ -39,16 +39,9 @@ class Grid():
             print("[ " + str(i) + " ]", end='', flush=True)    
         print("")    
         for i in range(0,self.size):
-            print("[ "+ str(i)+" ]", end='', flush=True)
+            print("[ "+ str(i)+" ]", end='', flush=True)   #prints x axis
             for j in range(0,self.size):
-                
-                if self.gridArray[i][j].isBomb():
-                    print("[ x ]", end='', flush=True)
-                else:
-                    if self.gridArray[i][j].getNearBombs() > 0:
-                        print("[ "+ str(self.gridArray[i][j].getNearBombs()) +" ]", end='', flush=True)
-                    else:
-                        print("[   ]", end='', flush=True)
+                print("[ " + self.gridArray[i][j].debugPrinter() + " ]", end='', flush=True)
             print("")
     
 
@@ -97,13 +90,85 @@ class Grid():
 
                 self.gridArray[i][j].setNearBombs(nearBombs)
 
+    def isEmpty(self,x,y):
+        if self.gridArray[x][y].getNearBombs() > 0:
+            self.gridArray[x][y].revealTile()
+        if not(self.gridArray[x][y].isBomb()) and (self.gridArray[x][y].getNearBombs() == 0):
+            if not self.gridArray[x][y].isRevealed():
+                return True
+        else:
+            return False
+
     def revealTile(self,x,y):
-        print("TODO")
+        currTile = self.gridArray[x][y]
+        if self.deadState:
+            print("Your are dead :(")
+            return
+        if self.winState:
+            print("You have won! B)")
+            return
+        if self.isEmpty(x,y):
+            self.revealTileHelper(x,y)
+            return
+        if currTile.isBomb():
+            currTile.revealTile()
+            self.deadState = True
+            print("Oh no! You hit a Bomb  💣 ")
+            return
+        currTile.revealTile()
+        
+        
 
 
-    def revealTileHelper(self,x,y):
-        print("TODO")
+    #assumes the tile at i,j is able to be revealed (isEmpty == True)
+    #reveals the given (i,j) tile and checks if nearby tiles can be revealed
+    def revealTileHelper(self,i,j):
+        self.gridArray[i][j].revealTile()
+        if i > 0: #if not top row
+            if self.isEmpty(i-1,j):
+                self.revealTileHelper(i-1,j)
+            if j > 0:
+                if self.isEmpty(i-1,j-1):
+                    self.revealTileHelper(i-1,j-1)
+            if j < self.size-1:
+                if self.isEmpty(i-1,j+1):
+                    self.revealTileHelper(i-1,j+1)
+        if j > 0:
+            if self.isEmpty(i,j-1):
+                self.revealTileHelper(i,j-1)
+        if j < self.size - 1:
+            if self.isEmpty(i,j+1):
+                self.revealTileHelper(i,j+1)
+        if i < self.size - 1:
+            if self.isEmpty(i+1,j):
+                self.revealTileHelper(i+1,j)
+            if j > 0:
+                if self.isEmpty(i+1,j-1):
+                    self.revealTileHelper(i+1,j-1)
+            if j < self.size-1:
+                if self.isEmpty(i+1,j+1):
+                    self.revealTileHelper(i+1,j+1)
                 
+
+
+    def nearTile(self,x,y,dir):
+        if dir == "top":
+            return self.gridArray[x-1][y]
+        if dir == "topright":
+            return self.gridArray[x-1][y+1]
+        if dir == "topleft":
+            return self.gridArray[x-1][y-1]
+        if dir == "left":
+            return self.gridArray[x][y-1]
+        if dir == "right":
+            return self.gridArray[x][y+1]
+        if dir == "bottom":
+            return self.gridArray[x+1][y]
+        if dir == "bottomright":
+            return self.gridArray[x+1][y+1]
+        if dir == "bottomleft":
+            return self.gridArray[x+1][y-1]
+
 
 
 
