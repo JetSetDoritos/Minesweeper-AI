@@ -1,4 +1,5 @@
 from Grid import Grid
+from ast import literal_eval as make_tuple
 
 class Minesweeper():
 
@@ -8,10 +9,9 @@ class Minesweeper():
 
         while currGame.notDead():
             currGame.printGrid()
-            #these are reversed on purpose
-            y = int(input("Enter x coord: "))
-            x = int(input("Enter y coord: "))
-            currGame.revealTile(x,y)
+            coords = input("Input coordinates as x,y: ")
+            tupcoords = make_tuple("(" + coords + ")")
+            currGame.revealTile(tupcoords[1],tupcoords[0])
             
 
         currGame.printRevealedGrid()
