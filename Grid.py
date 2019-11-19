@@ -19,9 +19,13 @@ class Grid():
 
     def printGrid(self):
         print("Printing Grid State:")
+        print("[:) ]", end='', flush=True)
         for i in range(0,self.size):
+            print("[ " + str(i) + " ]", end='', flush=True)
+        print("")
+        for i in range(0,self.size):
+            print("[ "+ str(i)+" ]", end='', flush=True)
             for j in range(0,self.size):
-                
                 if self.gridArray[i][j].isRevealed():
                     print("[   ]", end='', flush=True)
                 else:
@@ -30,7 +34,12 @@ class Grid():
     
     def printRevealedGrid(self):
         print("Printing Revealed State:")
+        print("[:) ]", end='', flush=True)
         for i in range(0,self.size):
+            print("[ " + str(i) + " ]", end='', flush=True)    
+        print("")    
+        for i in range(0,self.size):
+            print("[ "+ str(i)+" ]", end='', flush=True)
             for j in range(0,self.size):
                 
                 if self.gridArray[i][j].isBomb():
@@ -87,6 +96,13 @@ class Grid():
 
 
                 self.gridArray[i][j].setNearBombs(nearBombs)
+
+    def revealTile(self,x,y):
+        print("TODO")
+
+
+    def revealTileHelper(self,x,y):
+        print("TODO")
                 
 
 
