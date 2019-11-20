@@ -24,10 +24,16 @@ class Grid():
         print("Printing Grid State:")
         print("[:) ]", end='', flush=True)
         for i in range(0,self.size):
-            print("[ " + str(i) + " ]", end='', flush=True)
+            if i > 9:
+                print("[ " + str(i) + "]", end='', flush=True)
+            else:
+                print("[ " + str(i) + " ]", end='', flush=True)
         print("")
         for i in range(0,self.size):
-            print("[ "+ str(i)+" ]", end='', flush=True)
+            if i > 9:
+                print("[ " + str(i) + "]", end='', flush=True)
+            else:
+                print("[ " + str(i) + " ]", end='', flush=True)
             for j in range(0,self.size):
                 print("[ " + self.gridArray[i][j].printer() + " ]", end='', flush=True) 
             print("")
@@ -36,10 +42,16 @@ class Grid():
         print("Printing Revealed State:")
         print("[:) ]", end='', flush=True)
         for i in range(0,self.size):
-            print("[ " + str(i) + " ]", end='', flush=True)    
+            if i > 9:
+                print("[ " + str(i) + "]", end='', flush=True)
+            else:
+                print("[ " + str(i) + " ]", end='', flush=True)    
         print("")    
         for i in range(0,self.size):
-            print("[ "+ str(i)+" ]", end='', flush=True)   #prints x axis
+            if i > 9:
+                print("[ " + str(i) + "]", end='', flush=True)
+            else:
+                print("[ " + str(i) + " ]", end='', flush=True)
             for j in range(0,self.size):
                 print("[ " + self.gridArray[i][j].debugPrinter() + " ]", end='', flush=True)
             print("")
@@ -101,25 +113,25 @@ class Grid():
 
     def revealTile(self,x,y):
         currTile = self.gridArray[x][y]
+
         if self.deadState:
             print("Your are dead :(")
-            return
-        if self.winState:
-            print("You have won! B)")
-            return
-        if self.isEmpty(x,y):
+        elif self.isEmpty(x,y):
             self.revealTileHelper(x,y)
-            return
-        if currTile.isBomb():
+        elif currTile.isBomb():
             currTile.revealTile()
             self.deadState = True
             print("Oh no! You hit a Bomb  💣 ")
-            return
         elif currTile.getNearBombs() == 0:
             self.revealTileHelper(x,y)
-            return
         else:
             currTile.revealTile()
+        if self.verifyBombs():
+            self.winState = True
+        if self.winState:
+            print("You have won! B)")
+            return
+        
         
         
 
@@ -154,12 +166,18 @@ class Grid():
                     self.revealTileHelper(i+1,j+1)
                 
     def notDead(self):
-        if self.deadState:
-            return False
-        else:
-            return True
+        return not self.deadState
+    def notWon(self):
+        return not self.winState
 
-
-
+    #verifies Bombs are the only tiles remaining
+    #returns true if the only spaces left are bombs
+    def verifyBombs(self):
+        for ta in self.gridArray:
+            for t in ta:
+                if (t.isRevealed() == False) and (t.isBomb() == False): #if a space is not revealed and it is not a bomb
+                    return False
+        
+        return True
                 
 

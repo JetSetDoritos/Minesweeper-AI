@@ -7,7 +7,7 @@ class Minesweeper():
         currGame = Grid(size,bombs)
 
 
-        while currGame.notDead():
+        while currGame.notDead() and currGame.notWon():
             currGame.printGrid()
             coords = input("Input coordinates as x,y: ")
             tupcoords = make_tuple("(" + coords + ")")

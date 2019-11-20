@@ -2,4 +2,4 @@ from Minesweeper import Minesweeper
 
 game = Minesweeper()
 
-game.playMinesweeper()
+game.playMinesweeper(20,50)
