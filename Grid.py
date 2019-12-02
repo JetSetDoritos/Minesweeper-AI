@@ -19,6 +19,31 @@ class Grid():
 
         self.winState = False
         self.deadState = False
+    
+    def get_count_grid(self):
+        tempGridi = []
+        for i in range(0,self.size):
+            tempGridj = []
+            for j in range(0,self.size):
+                currTile = self.gridArray[i][j]
+                if(currTile.isRevealed()):
+                    tempGridj.append(currTile.nearBombs)
+                else:
+                    tempGridj.append(None)
+                
+            tempGridi.append(tempGridj)
+        return tempGridi
+    
+    def get_exposed_grid(self):
+        tempGridi = []
+        for i in range(0,self.size):
+            tempGridj = []
+            for j in range(0,self.size):
+                currTile = self.gridArray[i][j]
+                tempGridj.append(currTile.isRevealed())
+                
+            tempGridi.append(tempGridj)
+        return tempGridi
 
     def printGrid(self):
         print("Printing Grid State:")
