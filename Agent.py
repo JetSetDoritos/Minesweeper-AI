@@ -51,8 +51,27 @@ class Agent():
 
         maxAction = self.rand.binomial(n=1,p=1-self.epsilonProb,size=1)[0]
 
+        selectMove = self.parseAction(Q,maxAction)
+
+        coords - int(selectMove/self.width),int(selectMove%self.width)
+
+        #*coords tuple with x and y for move
+
+        
+
     
     def parseAction(self,Q,maxAction):
         exp = np.reshape(np.asarray(self.game.getExposedGrid()),-1)
         tmp = np.asarray(np.logical_not(exp),'float')
-        Q[]
+        tmp[tmp==0] = -np.inf
+        Q[exp] = np.abs[Q[exp]]
+        if maxAction:
+            validActions = tmp*Q
+            return np.argmax(validActions)
+        else:
+            temp2 = np.arange(len(self.actionsId))
+            self.rand.shuffle(temp2)
+            cnt = 0
+            while(tmp[temp2[cnt]]==-np.inf):
+                cnt +=1
+            return temp2[cnt]
