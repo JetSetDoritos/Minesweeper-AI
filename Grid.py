@@ -82,6 +82,21 @@ class Grid():
             print("")
     
 
+    def gridRegen(self):
+        tempGridi = []
+        for i in range(0,self.size):
+            tempGridj = []
+            for j in range(0,self.size):
+                tempGridj.append(Tile())
+            tempGridi.append(tempGridj)
+        self.gridArray = tempGridi
+
+        self.generateBombs()
+        self.generateNumbers()
+
+        self.winState = False
+        self.deadState = False
+
     def generateBombs(self):
         bombsLocation = random.sample(range(0, self.size*self.size), self.bombs)
         print("Generating bombs " + str(self.bombs))
@@ -91,8 +106,10 @@ class Grid():
                 if tracker in bombsLocation:
                     self.gridArray[i][j].setBomb()
                 tracker+=1
+        print("Bombs generated.")
 
     def generateNumbers(self):
+        print("Generating tile numbers..")
         for i in range(0,self.size):
             for j in range(0,self.size):
                 nearBombs = 0
@@ -126,6 +143,7 @@ class Grid():
 
 
                 self.gridArray[i][j].setNearBombs(nearBombs)
+        print("Generated tile numbers.")
 
     def isEmpty(self,x,y):
         if self.gridArray[x][y].getNearBombs() > 0:
@@ -204,5 +222,6 @@ class Grid():
                     return False
         
         return True
-                
+
+
 

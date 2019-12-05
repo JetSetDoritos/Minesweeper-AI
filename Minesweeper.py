@@ -5,6 +5,9 @@ class Minesweeper():
     def __init__(self,size=10,bombs=12):
         self.currGame = Grid(size,bombs)
 
+    def getGame(self):
+        return self.currGame
+
     def getGrid(self):
         return self.currGame.gridArray
     def getCountGrid(self):
